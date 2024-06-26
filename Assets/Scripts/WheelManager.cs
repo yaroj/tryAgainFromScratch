@@ -131,11 +131,11 @@ public class WheelManager : MonoBehaviour
 	{
 		int _randomSelectedChioceID = -1;
 		int currentSpinNumber = PlayerPrefs.GetInt(SAVESPINCOUNTNAME, 0);
-		//if (FirstNSectors.Length > currentSpinNumber)
-		//{
-		//	_randomSelectedChioceID = FirstNSectors[currentSpinNumber] % _numberOfSectors;
-		//}
-		//else
+		if (FirstNSectors.Length > currentSpinNumber)
+		{
+			_randomSelectedChioceID = FirstNSectors[currentSpinNumber] % _numberOfSectors;
+		}
+		else
 		{
 			int currentChance = 0;
 			int randomValue = Random.Range(0, _totalChance);
