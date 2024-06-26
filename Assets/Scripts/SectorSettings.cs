@@ -5,11 +5,15 @@ using UnityEngine.UI;
 [Serializable]
 public class SectorSettings
 {
-	public Reward[] items;
+	[NonSerialized]
+	public Image image;
 	[NonSerialized]
 	public string saveName;
+
+
+	public Reward[] items;
 	public int chance = 1;
-	public Image image;
+	public Color fillColor;
 	public Reward GetCurrentReward()
 	{
 		var current = PlayerPrefs.GetInt(saveName, 0);
