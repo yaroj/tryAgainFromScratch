@@ -60,12 +60,12 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.28f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Reward.cs" />
-    <Compile Include="Assets\Scripts\WheelManager.cs" />
-    <Compile Include="Assets\Scripts\SectorSettings.cs" />
+    <Compile Include="Assets\SpinWheelPackage\Scripts\SectorSettings.cs" />
+    <Compile Include="Assets\SpinWheelPackage\Scripts\WheelManager.cs" />
+    <Compile Include="Assets\SpinWheelPackage\Scripts\Reward.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Scripts\SpinWheel.asmdef" />
+    <None Include="Assets\SpinWheelPackage\Scripts\SpinWheel.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
