@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +21,7 @@ public class WheelManager : MonoBehaviour
 
 	private int _numberOfSectors;
 	private int _totalChance = 0;
-	pri float _sectorProportion;
+	private float _sectorProportion;
 
 	const string SAVESPINCOUNTNAME = "spinCount";
 
