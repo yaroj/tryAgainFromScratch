@@ -18,12 +18,13 @@ public class WheelManager : MonoBehaviour
 
 
 	[SerializeField] private Image _resultImage;
-	[SerializeField] private TextMeshProUGUI resultLabel;
+	[SerializeField] private TextMeshProUGUI _resultLabel;
 	[SerializeField] private GameObject _sectorPrefab;
 	[SerializeField] private Button _spinWheelButton;
 
 	private int _numberOfSectors;
 	private int _totalChance = 0;
+	pri float _sectorProportion;
 
 	const string SAVESPINCOUNTNAME = "spinCount";
 
@@ -35,13 +36,13 @@ public class WheelManager : MonoBehaviour
 		CreateWheel();
 	}
 
+
 	private void CreateWheel()
 	{
 		Image[] imageSlices = new Image[_numberOfSectors];
 		CreateSectors(ref imageSlices);
 		ApplySectorSettings(ref imageSlices);
 	}
-	float _sectorProportion;
 
 	private void CreateSectors(ref Image[] imageSlices)
 	{
@@ -87,9 +88,6 @@ public class WheelManager : MonoBehaviour
 		{
 			imageSlices[i].fillAmount = _sectorProportion;
 			imageSlices[i].color = sectors[i].fillColor;
-
-			print(sectors[i].fillColor);
-
 		}
 	}
 	private void SetIcons(ref Image[] imageSlices)
@@ -141,23 +139,15 @@ public class WheelManager : MonoBehaviour
 			int randomValue = Random.Range(0, _totalChance);
 			for (int i = 0; i < _numberOfSectors; i++)
 			{
-				print(currentChance);
 				currentChance += sectors[i].chance;
 				if (currentChance > randomValue)
 				{
-					print("randomly chosen value is");
-					print(i);
-					print(currentChance);
-					print(randomValue);
-					print(_totalChance);
 					_randomSelectedChioceID = i;
 					break;
-
 				}
 			}
 		}
 		PlayerPrefs.SetInt(SAVESPINCOUNTNAME, currentSpinNumber + 1);
-		print(sectors[_randomSelectedChioceID].fillColor);
 		StartCoroutine(RollWheel(_randomSelectedChioceID));
 
 	}
@@ -183,7 +173,7 @@ public class WheelManager : MonoBehaviour
 		_resultImage.gameObject.SetActive(true);
 		var currentReward = sectorSettings.GetCurrentReward();
 		_resultImage.sprite = currentReward.sprite;
-		resultLabel.text = currentReward.label;
+		_resultLabel.text = currentReward.label;
 
 
 		sectorSettings.OnRewardTaken();

@@ -10,7 +10,9 @@ public struct Reward
 	public string label;
 }
 
-
+/// <summary>
+/// types of items that can be received as a reward
+/// </summary>
 public enum ItemType
 {
 	gem,
