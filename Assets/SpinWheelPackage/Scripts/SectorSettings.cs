@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,10 +25,15 @@ public class SectorSettings
 	{
 		PlayerPrefs.SetInt(saveName, PlayerPrefs.GetInt(saveName, 0) + 1);
 		UpdateImage();
+		UpdateText();
 	}
 
 	public void UpdateImage()
 	{
 		image.sprite = GetCurrentReward().sprite;
+	}
+	public void UpdateText()
+	{
+		image.transform.parent.GetComponentInChildren<TMP_Text>().text = GetCurrentReward().label;
 	}
 }
