@@ -59,7 +59,6 @@ public class WheelManager : MonoBehaviour
 
 			Image img = newSlice.GetComponent<Image>();
 			imageSlices[i] = img;
-
 		}
 	}
 	private void ApplySectorSettings(ref Image[] imageSlices)
@@ -93,15 +92,17 @@ public class WheelManager : MonoBehaviour
 		{
 			Image icon = imageSlices[i].transform.GetChild(0).GetComponent<Image>();
 
-			if (sectors[i].GetCurrentReward().sprite == null) { icon.gameObject.SetActive(false); continue; }
+			if (sectors[i].GetCurrentReward().sprite == null) 
+			{
+				Debug.LogError("no sprite in reward at sector " + i);
+				icon.gameObject.SetActive(false); continue; 
+			}
 			sectors[i].image = icon;
 
 			icon.transform.localPosition = offsetMultiplier * iconOffset;
-			icon.transform.localScale *= Mathf.Clamp(6 * _sectorProportion, 0, 1.2f);
 			sectors[i].UpdateImage();
 			icon.transform.Rotate(0, 0, -180 * _sectorProportion);
 			icon.preserveAspect = true;
-
 		}
 	}
 
@@ -146,7 +147,6 @@ public class WheelManager : MonoBehaviour
 		}
 		PlayerPrefs.SetInt(SAVESPINCOUNTNAME, currentSpinNumber + 1);
 		StartCoroutine(RollWheel(_randomSelectedChioceID));
-
 	}
 
 	private IEnumerator RollWheel(int targetSector)
