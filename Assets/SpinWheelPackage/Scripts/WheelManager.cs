@@ -5,19 +5,20 @@ using UnityEngine.UI;
 
 public class WheelManager : MonoBehaviour
 {
-	public float iconOffset;
-	public float labelOffset;
-	public float offsetMultiplierLength;
-	public Vector3 offsetMultiplier;
-	public int[] FirstNSectors;
-	public float wheelSpeed;
-	public SectorSettings[] sectors;
 
 
+	[SerializeField] private SectorSettings[] sectors;
 	[SerializeField] private Image _resultImage;
 	[SerializeField] private TextMeshProUGUI _resultLabel;
 	[SerializeField] private GameObject _sectorPrefab;
 	[SerializeField] private Button _spinWheelButton;
+	[SerializeField] private float wheelSpeed;
+	[SerializeField] private float iconOffset;
+	[SerializeField] private float labelOffset;
+	[SerializeField] private float offsetMultiplierLength;
+	[SerializeField] private Vector3 offsetMultiplier;
+	[SerializeField] private int[] FirstNSectors;
+
 
 	private int _numberOfSectors;
 	private int _totalChance = 0;
@@ -93,7 +94,7 @@ public class WheelManager : MonoBehaviour
 
 			if (sectors[i].GetCurrentReward().sprite == null)
 			{
-				Debug.LogError("no sprite in reward at sector " + i);
+				Debug.LogError("no sprite in reward at sector " + i + " with a label: " + sectors[i].GetCurrentReward().label);
 				icon.gameObject.SetActive(false); continue;
 			}
 			sectors[i].image = icon;
