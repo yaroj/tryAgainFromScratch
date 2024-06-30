@@ -51,7 +51,6 @@ public class WheelManager : MonoBehaviour
 			GameObject newSlice = Instantiate(_sectorPrefab, transform);
 			newSlice.transform.localPosition = new Vector3(0, 0, 0);
 			sectors[i].saveName = i.ToString();
-			newSlice.name = sectors[i].GetCurrentReward().label;
 
 			totalSliceProp += _sectorProportion;
 			float rotAngle = 360 * (0.5f + _sectorProportion - totalSliceProp);
@@ -92,10 +91,10 @@ public class WheelManager : MonoBehaviour
 		{
 			Image icon = imageSlices[i].transform.GetChild(0).GetComponent<Image>();
 
-			if (sectors[i].GetCurrentReward().sprite == null) 
+			if (sectors[i].GetCurrentReward().sprite == null)
 			{
 				Debug.LogError("no sprite in reward at sector " + i);
-				icon.gameObject.SetActive(false); continue; 
+				icon.gameObject.SetActive(false); continue;
 			}
 			sectors[i].image = icon;
 
@@ -110,12 +109,10 @@ public class WheelManager : MonoBehaviour
 	{
 		for (int i = 0; i < _numberOfSectors; i++)
 		{
-
 			TMP_Text labelText = imageSector[i].GetComponentInChildren<TMP_Text>();
 			labelText.transform.Rotate(0, 0, -180 * _sectorProportion);
 
 			labelText.text = sectors[i].GetCurrentReward().label;
-
 
 			labelText.transform.localPosition = offsetMultiplier * labelOffset;
 		}
@@ -125,28 +122,34 @@ public class WheelManager : MonoBehaviour
 
 	public void SpinWheel()
 	{
-		int _randomSelectedChioceID = -1;
+		int randomSelectedChioceID;
 		int currentSpinNumber = PlayerPrefs.GetInt(SAVESPINCOUNTNAME, 0);
 		if (FirstNSectors.Length > currentSpinNumber)
 		{
-			_randomSelectedChioceID = FirstNSectors[currentSpinNumber] % _numberOfSectors;
+			randomSelectedChioceID = FirstNSectors[currentSpinNumber] % _numberOfSectors;
 		}
 		else
 		{
-			int currentChance = 0;
-			int randomValue = Random.Range(0, _totalChance);
-			for (int i = 0; i < _numberOfSectors; i++)
-			{
-				currentChance += sectors[i].chance;
-				if (currentChance > randomValue)
-				{
-					_randomSelectedChioceID = i;
-					break;
-				}
-			}
+			randomSelectedChioceID = GetPseudoRandomChoiceID();
 		}
 		PlayerPrefs.SetInt(SAVESPINCOUNTNAME, currentSpinNumber + 1);
-		StartCoroutine(RollWheel(_randomSelectedChioceID));
+		StartCoroutine(RollWheel(randomSelectedChioceID));
+	}
+
+	private int GetPseudoRandomChoiceID()
+	{
+		int currentChance = 0;
+		int randomValue = Random.Range(0, _totalChance);
+		for (int i = 0; i < _numberOfSectors; i++)
+		{
+			currentChance += sectors[i].chance;
+			if (currentChance > randomValue)
+			{
+				return i;
+			}
+		}
+
+		return _numberOfSectors - 1;
 	}
 
 	private IEnumerator RollWheel(int targetSector)
