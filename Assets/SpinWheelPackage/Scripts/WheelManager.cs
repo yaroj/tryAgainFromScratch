@@ -20,7 +20,6 @@ public class WheelManager : MonoBehaviour
 	[SerializeField] private int[] FirstNSectors;
 
 
-	private int _numberOfSectors;
 	private int _totalChance = 0;
 	private float _sectorProportion;
 
@@ -30,24 +29,23 @@ public class WheelManager : MonoBehaviour
 
 	private void Awake()
 	{
-		_numberOfSectors = sectors.Length;
 		CreateWheel();
 	}
 
 
 	private void CreateWheel()
 	{
-		Image[] imageSlices = new Image[_numberOfSectors];
+		Image[] imageSlices = new Image[sectors.Length];
 		CreateSectors(ref imageSlices);
 		ApplySectorSettings(ref imageSlices);
 	}
 
 	private void CreateSectors(ref Image[] imageSlices)
 	{
-		_sectorProportion = 1f / _numberOfSectors;
+		_sectorProportion = 1f / sectors.Length;
 		offsetMultiplier = new Vector3(offsetMultiplierLength * Mathf.Sin(_sectorProportion * Mathf.PI), offsetMultiplierLength * Mathf.Cos(_sectorProportion * Mathf.PI), 0);
 		float totalSliceProp = 0;
-		for (int i = 0; i < _numberOfSectors; i++)
+		for (int i = 0; i < sectors.Length; i++)
 		{
 			GameObject newSlice = Instantiate(_sectorPrefab, transform);
 			newSlice.transform.localPosition = new Vector3(0, 0, 0);
@@ -80,7 +78,7 @@ public class WheelManager : MonoBehaviour
 
 	private void SetColors(ref Image[] imageSlices)
 	{
-		for (int i = 0; i < _numberOfSectors; i++)
+		for (int i = 0; i < sectors.Length; i++)
 		{
 			imageSlices[i].fillAmount = _sectorProportion;
 			imageSlices[i].color = sectors[i].fillColor;
@@ -88,7 +86,7 @@ public class WheelManager : MonoBehaviour
 	}
 	private void SetIcons(ref Image[] imageSlices)
 	{
-		for (int i = 0; i < _numberOfSectors; i++)
+		for (int i = 0; i < sectors.Length; i++)
 		{
 			Image icon = imageSlices[i].transform.GetChild(0).GetComponent<Image>();
 
@@ -108,7 +106,7 @@ public class WheelManager : MonoBehaviour
 
 	private void SetText(ref Image[] imageSector)
 	{
-		for (int i = 0; i < _numberOfSectors; i++)
+		for (int i = 0; i < sectors.Length; i++)
 		{
 			TMP_Text labelText = imageSector[i].GetComponentInChildren<TMP_Text>();
 			labelText.transform.Rotate(0, 0, -180 * _sectorProportion);
@@ -127,7 +125,7 @@ public class WheelManager : MonoBehaviour
 		int currentSpinNumber = PlayerPrefs.GetInt(SAVESPINCOUNTNAME, 0);
 		if (FirstNSectors.Length > currentSpinNumber)
 		{
-			randomSelectedChioceID = FirstNSectors[currentSpinNumber] % _numberOfSectors;
+			randomSelectedChioceID = FirstNSectors[currentSpinNumber] % sectors.Length;
 		}
 		else
 		{
@@ -141,7 +139,7 @@ public class WheelManager : MonoBehaviour
 	{
 		int currentChance = 0;
 		int randomValue = Random.Range(0, _totalChance);
-		for (int i = 0; i < _numberOfSectors; i++)
+		for (int i = 0; i < sectors.Length; i++)
 		{
 			currentChance += sectors[i].chance;
 			if (currentChance > randomValue)
@@ -150,13 +148,13 @@ public class WheelManager : MonoBehaviour
 			}
 		}
 
-		return _numberOfSectors - 1;
+		return sectors.Length - 1;
 	}
 
 	private IEnumerator RollWheel(int targetSector)
 	{
 		_spinWheelButton.enabled = false;
-		float AngleToRotate = 360 * (targetSector + 0.5f) / _numberOfSectors + 540 - transform.rotation.eulerAngles.z;
+		float AngleToRotate = 360 * (targetSector + 0.5f) / sectors.Length + 540 - transform.rotation.eulerAngles.z;
 
 		while (AngleToRotate > 0)
 		{
